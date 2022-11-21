@@ -34,10 +34,11 @@ app.post('/api/notes', (request, response, next) => {
     date: new Date(),
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  })
-  .catch(err => next(err))
+  note.save()
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(err => next(err))
 })
 
 app.get('/api/notes', (req, res) => {
@@ -62,7 +63,7 @@ app.get('/api/notes/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
 app.put('/api/notes/:id', (req, res, next) => {
@@ -71,7 +72,7 @@ app.put('/api/notes/:id', (req, res, next) => {
   Note.findByIdAndUpdate(
     req.params.id,
     { content, important },
-    { new: true, runValidators: true, context: "query" }
+    { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedNote => {
       res.json(updatedNote)
@@ -90,7 +91,7 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === "ValidationError") {
+  } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
 
